@@ -1,0 +1,46 @@
+{% extends "learn/base.html" %}
+
+{% block head %}
+    
+{% endblock head %}
+
+{% block content %}
+
+	{% if form.errors %}
+		<p>Your username and password didn't match. Please try again.</p>
+	{% endif %}
+
+	{% if next %}
+	    {% if user.is_authenticated %}
+			<p>Your account doesn't have access to this page. To proceed,
+			    please login with an account that has access.</p>
+	    {% else %}
+			<p>Please login to see this page.</p>
+	    {% endif %}
+	{% endif %}
+
+
+
+	<h3>Register</h3>
+	<hr>
+
+    <form method="post">
+		{% csrf_token %}
+
+
+		{{form.as_p}}
+		<div class="text-right">
+        	<input class="btn btn-success btn-lg" type="submit" value="register" />
+		</div>
+    </form>
+
+
+{% endblock content %}
+
+{% block scripts %}
+
+	<script>
+		$(function(){$("input").not("[type='submit']").addClass("form-control")});
+	</script>
+    
+{% endblock scripts %}

@@ -1,0 +1,38 @@
+{% extends "learn/base.html" %}
+
+{% block head %}
+    
+{% endblock head %}
+
+{% block content %}
+
+	<h3 class="text-center">Projects</h3>
+	<hr>
+
+	<div class="col-lg-8 col-lg-offset-2">
+		{% for project in object_list %}
+
+			{% if project.cover_image %}
+				<p> <img class="img-responsive" src="{{project.cover_image.url}}"> </p>
+			{% endif %}
+	 		
+	 		<a href="{% url 'project_detail' pk=project.pk %}">
+	 			<h3 class="ctitle">
+	 			{{project.title}} - {{project.get_difficulty_display}} Difficulty</h3>
+	 		</a>
+	 		 		
+	 		<p>{{project.description}}</p>
+
+	 		<p class="text-right"><a class="btn btn-primary" href="{% url 'project_detail' pk=project.pk %}">View Course</a></p>
+
+	 		<hr>
+		{% endfor %}
+	</div>
+
+
+    
+{% endblock content %}
+
+{% block scripts %}
+    
+{% endblock scripts %}

@@ -1,0 +1,41 @@
+.btn {
+	border: none;
+}
+
+body {
+	background: linear-gradient(45deg, #2f2f2f 15%, #2279d4 85%);
+	font-family: 'Montserrat', sans-serif;
+}
+
+header {
+	height: 40vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+header .title {
+	font-weight: 100;
+	font-size: 40px;
+	color: #fff;
+	letter-spacing: 1px;
+}
+
+header .subtitle {
+	font-weight: 100;
+	color: #fff;
+	text-align: center;
+}
+
+.bg {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 5px;
+	background-color: #fff;
+}
+
+body .nav-pills > li.active > a { 
+	background-color: #a5a5a5 !important;
+}

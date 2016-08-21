@@ -1,0 +1,42 @@
+
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Learn Django</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+	{% block head %} {% endblock head %}
+</head>
+<body>
+	
+	<header>
+		<div class="text-center">
+			<h1 class="text-center title">&lt;code-step	&#47;&gt;</h1>
+			<p class="subtitle">Learn To Code By Making Projects Step By Step</p>
+			{% if not user.is_authenticated %}
+				<a class="btn btn-default" href="/login/">Login</a>
+				<a class="btn btn-default" href="/register/">Register</a>
+			{% else %}
+				<a class="btn btn-default" href="/logout/">Logout {{user}}</a>
+			{% endif %}
+		</div>
+	</header>
+
+
+	<main class="container bg">
+		{% block content %} {% endblock content %}
+	</main>
+
+	<footer>
+		<p class="text-center" style="color: #fff;">code-step &copy; 2016</p>
+	</footer>
+
+</body>
+<script type="text/javascript" src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+{% block scripts %} {% endblock scripts %}
+</html>

@@ -1,0 +1,59 @@
+{% extends "learn/base.html" %}
+
+{% block head %}
+    
+{% endblock head %}
+
+{% block content %}
+   	
+   	{% for step in object_list %}
+   		
+		<div id="blue">
+		    <div class="container">
+				<div class="row">
+				</div><!-- /row -->
+		    </div> <!-- /container -->
+		</div><!-- /blue -->
+
+		<div>
+			<h3>{{step.title}}</h3>
+			<hr>
+
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2">
+					{{ step.content|safe }}
+				</div>
+		
+			</div>
+
+			<nav aria-label="...">
+			  <ul class="pager">
+				{% if page_obj.has_previous %}
+			    	<li>
+			    		<a href="{% url 'step_list' project_pk=step.project.pk %}?page={{page_obj.previous_page_number}}">
+			    			Previous
+			    		</a>
+			    	</li>
+				{% endif %}
+				<li>
+					<a href="{% url 'project_detail' pk=step.project.pk %}">Back To Project Summary</a>
+				</li>
+				{% if page_obj.has_next %}
+			    	<li>
+			    		<a href="{% url 'step_list' project_pk=step.project.pk %}?page={{page_obj.next_page_number}}" aria-label="Next">
+			    			Next
+			    		</a>
+			    	</li>
+			    {% endif %}
+			  </ul>
+			</nav>
+		</div>
+
+   	{% endfor %}
+
+
+{% endblock content %}
+
+{% block scripts %}
+    
+{% endblock scripts %}

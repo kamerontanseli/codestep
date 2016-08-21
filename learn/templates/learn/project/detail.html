@@ -1,0 +1,57 @@
+{% extends "learn/base.html" %}
+
+{% block head %}
+    
+{% endblock head %}
+
+{% block content %}
+	
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<img src="{{object.cover_image.url}}" alt="" class="img-responsive">
+				<br>
+			</div>
+		</div>
+
+		<h3 class="text-center">
+			{{object.title}} 
+			{% if progress %}
+				- {{total_progress}}% Complete
+			{% endif %}
+		</h3>
+		
+		{% if not progress %}		    
+			<div class="text-center">
+				<br>
+		    	<a href="{% url 'step_list' project_pk=object.pk %}" id="start_project" class="btn btn-lg btn-success">Start Project</a>
+			</div>
+			<br>
+		{% endif %}
+		<br>
+	    <p>{{ object.description }}</p>
+	    <br>
+		<hr>
+
+	    <h3>Steps</h3>
+		<br>
+		<div class="list-group">
+	    	{% for step in steps %}
+			  <a href="{% url 'step_list' project_pk=object.pk %}?page={{forloop.counter}}" class="list-group-item">
+			    <h4 class="list-group-item-heading">{{forloop.counter}}. {{step.title}}</h4>
+			  </a>
+	    	{% endfor %}
+		</div>	
+
+		<br>
+
+
+		<a class="btn btn-primary" href="{% url 'project_list' %}">Back</a>
+
+
+
+
+{% endblock content %}
+
+{% block scripts %}
+    
+{% endblock scripts %}

@@ -43,11 +43,12 @@ class ProjectDetailView(DetailView):
 
 		context["steps"] = self.object.get_steps()
 
-		context["progress"] = Progress.objects.filter(user=self.request.user, project=self.object).first()
-		context["max_step"] = max([s.order for s in context["steps"]])
+		if self.request.user.is_authenticated() and len(context["steps"]) > 0:
+			context["progress"] = Progress.objects.filter(user=self.request.user, project=self.object).first()
+			context["max_step"] = max([s.order for s in context["steps"]])
 
-		if context["progress"] and context["max_step"] > 0:
-			context["total_progress"] = (context["progress"].step / context["max_step"]) * 100
+			if context["progress"] and context["max_step"] > 0:
+				context["total_progress"] = (context["progress"].step / context["max_step"]) * 100
 		return context 
 
 class StepListView(LoginRequiredMixin, ListView):
@@ -55,6 +56,12 @@ class StepListView(LoginRequiredMixin, ListView):
 	model = Step 
 	paginate_by = 1
 	template_name = "learn/step/list.html"
+
+	def get(self, request, *args, **kwargs):
+		self.object_list = self.get_queryset() 
+		if self.object_list.count() == 0:
+			return redirect(reverse("project_detail", kwargs={"pk": self.kwargs["project_pk"]}))
+		return super(StepListView, self).get(request, *args, **kwargs)
 
 	def get_queryset(self):
 		queryset = super(StepListView, self).get_queryset().filter(project__id=self.kwargs["project_pk"]).order_by("order")		
@@ -65,13 +72,14 @@ class StepListView(LoginRequiredMixin, ListView):
 		context["steps"] = self.get_queryset()
 
 		if "page" in self.request.GET:
-			step = get_object_or_404(Step, pk=int(self.request.GET['page']))
+			step = get_object_or_404(Step, order=int(self.request.GET['page']), project__id=int(self.kwargs["project_pk"]))
 		else:
 			step = context["steps"].first()
 
-		progress, created = Progress.objects.get_or_create(user=self.request.user, project=step.project)
-		if progress.step < step.order:
-			progress.step = step.order 
-			progress.save()
+		if step != None:
+			progress, created = Progress.objects.get_or_create(user=self.request.user, project=step.project)
+			if progress.step < step.order:
+				progress.step = step.order 
+				progress.save()
 		
 		return context
